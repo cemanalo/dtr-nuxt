@@ -6,9 +6,11 @@
         <v-form>
           <v-card-text>
             <v-text-field
+              v-model="formEmail"
               label="Email"
             />
             <v-text-field
+              v-model="formPassword"
               label="Password"
               type="password"
             />
@@ -19,6 +21,7 @@
               color="primary"
               flat
               nuxt
+              @click="login"
             >Login</v-btn>
           </v-card-actions>
         </v-form>
@@ -29,9 +32,27 @@
 <script>
 export default {
   layout: 'clean',
+
   fetch({ store, redirect }) {
     if (store.state.authUser) {
       return redirect('/')
+    }
+  },
+
+  data() {
+    return {
+      formError: null,
+      formEmail: '',
+      formPassword: ''
+    }
+  },
+
+  methods: {
+    async login() {
+      await this.$store.dispatch('login', {
+        email: this.formEmail,
+        password: this.formPassword
+      })
     }
   }
 }
