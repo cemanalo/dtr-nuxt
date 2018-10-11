@@ -28,6 +28,11 @@
 </template>
 <script>
 export default {
-  layout: 'clean'
+  layout: 'clean',
+  fetch({ store, redirect }) {
+    if (store.state.authUser) {
+      return redirect('/')
+    }
+  }
 }
 </script>
