@@ -1,3 +1,10 @@
+import VuexPersistence from 'vuex-persist'
+import to from 'await-to-js'
+
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage
+})
+
 export const state = () => ({
   authUser: 0
 })
@@ -10,22 +17,30 @@ export const mutations = {
 }
 
 export const actions = {
-  login({ commit }, { email, password }) {
-    return this.$axios
-      .$post(`${process.env.BASE_API_URL}/employees/login`, {
+  nuxtServerInit({ commit }) {
+    if (req.session && req.session.authUser) {
+      commit('SET_USER', req.session.authUser)
+    }
+  },
+
+  async login({ commit }, { email, password }) {
+    console.log(process.env.BASE_API_URL)
+    const [err, token] = await to(
+      this.$axios.$post(`${process.env.BASE_API_URL}/employees/login`, {
         email,
         password
       })
-      .then(res => {
-        if (res.status === 401) {
-          console.log('Bad credentials')
-        } else {
-          commit('SET_USER', res)
-          this.$router.push('/')
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    )
+
+    if (err) {
+      console.log(err.response)
+      throw new Error('Bad credentials')
+    } else {
+      console.log(token)
+      commit('SET_USER', token)
+      this.$router.push('/')
+    }
   }
 }
+
+export const plugins = [vuexLocal.plugin]
