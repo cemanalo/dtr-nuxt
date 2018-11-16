@@ -1,5 +1,5 @@
 const pkg = require('./package')
-
+const env = require('./env')
 module.exports = {
   mode: 'spa',
 
@@ -34,23 +34,28 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-    '@/plugins/vuetify'
-  ],
+  plugins: ['@/plugins/vuetify', '~/plugins/axios'],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/axios'
   ],
   /*
   ** Axios module configuration
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    proxy: true
+  },
+
+  proxy: {
+    '/api/': {
+      target: env.BASE_API_URL,
+      pathRewrite: { '^/api/': '' }
+    }
   },
 
   /*
@@ -72,7 +77,5 @@ module.exports = {
       }
     }
   },
-  env: {
-    baseApiUrl: process.env.BASE_API_URL
-  }
+  env
 }

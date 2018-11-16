@@ -11,7 +11,6 @@ export const state = () => ({
 
 export const mutations = {
   SET_USER: (state, user) => {
-    alert('SET_USER:' + user)
     state.authUser = user
   }
 }
@@ -23,21 +22,17 @@ export const actions = {
     }
   },
 
-  async login({ commit }, { email, password }) {
-    console.log(process.env.BASE_API_URL)
-    const [err, token] = await to(
-      this.$axios.$post(`${process.env.BASE_API_URL}/employees/login`, {
-        email,
-        password
-      })
-    )
+  async login({ commit }, { user, token }) {
+    commit('SET_USER', { token })
+    this.$axios.setToken(token)
+    const [err, userInfo] = await to(this.$axios.$get(`/api/employees/${user}`))
 
     if (err) {
       console.log(err.response)
       throw new Error('Bad credentials')
     } else {
       console.log(token)
-      commit('SET_USER', token)
+      commit('SET_USER', { userInfo, token })
       this.$router.push('/')
     }
   }
