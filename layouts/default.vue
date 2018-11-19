@@ -5,10 +5,17 @@
       fixed
       app
     >
-      <v-toolbar-title v-text="title"/>
+      <nuxt-link 
+        to="/" 
+        tag="v-toolbar-title">{{ title }}</nuxt-link>
       <v-spacer />
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat>Users</v-btn>
+        <nuxt-link 
+          to="/employees" 
+          tag="v-btn" 
+          class="v-btn--flat"
+        >Employees
+        </nuxt-link>
         <v-btn flat>Link Two</v-btn>
         <v-btn flat>Link Three</v-btn>
       </v-toolbar-items>
@@ -42,6 +49,11 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'DTR'
+    }
+  },
+  method: {
+    users() {
+      this.app.router.push({ name: 'users' })
     }
   }
 }

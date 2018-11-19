@@ -1,0 +1,22 @@
+[
+  {
+    "text": "Workday ID",
+    "value": "workdayId"
+  },
+  {
+    "text": "Last Name",
+    "value": "lastName"
+  },
+  {
+    "text": "First Name",
+    "value": "firstName"
+  },
+  {
+    "text": "Position",
+    "value": "position"
+  },
+  {
+    "text": "Action",
+    "sortable": false
+  }
+]
