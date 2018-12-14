@@ -21,7 +21,7 @@
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
-      <v-container>
+      <v-container grid-list-md>
         <nuxt />
       </v-container>
     </v-content>

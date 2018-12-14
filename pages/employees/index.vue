@@ -5,8 +5,20 @@
     align-center>
     <v-flex
       xs12>
+      <v-card-text style="height: 100px; position: relative">
+        <nuxt-link to="/employees/add" >
+          <v-btn 
+            slot="activator"
+            absolute
+            bottom
+            right
+            fab
+            class="mb-2"><v-icon>add</v-icon></v-btn>
+        </nuxt-link>
+      </v-card-text>
+      
       <v-card-title>
-        Employees
+        <h2>Employees</h2>
         <v-spacer/>
         <v-text-field
           v-model="search"
@@ -27,11 +39,20 @@
         <template 
           slot="items" 
           slot-scope="props">
-          <td>{{ props.item._source.workdayId }}</td>
           <td>{{ props.item._source.lastName }}</td>
           <td>{{ props.item._source.firstName }}</td>
+          <td>{{ props.item._source.workdayId }}</td>
           <td>{{ props.item._source.position }}</td>
-          <td>Action</td>
+          <td 
+            justify-center 
+            layout 
+            px-0>
+            <v-icon 
+              small
+              class="mr-2" 
+              @click="edit(props.item._source.id)">edit</v-icon>
+            <v-icon small>delete</v-icon>
+          </td>
         </template>
       </v-data-table>
     </v-flex>
@@ -48,7 +69,9 @@ export default {
   data() {
     return {
       headers,
-      pagination: {},
+      pagination: {
+        rowsPerPage: 10
+      },
       loading: true,
       employees: [],
       totalEmployees: 0,
@@ -59,7 +82,6 @@ export default {
     pagination: {
       handler() {
         this.loading = true
-        const self = this
         const pageReq = this.pagination
         const size = pageReq.rowsPerPage
         const from = size * (pageReq.page - 1)
@@ -111,6 +133,11 @@ export default {
         this.employees = _.get(employees, 'result.hits.hits', [])
         this.totalEmployees = _.get(employees, 'result.hits.total', 0)
       })
+  },
+  methods: {
+    edit(id) {
+      this.$router.push(`/employees/${id}`)
+    }
   }
 }
 </script>

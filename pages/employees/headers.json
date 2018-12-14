@@ -1,9 +1,5 @@
 [
   {
-    "text": "Workday ID",
-    "value": "_source.workdayId"
-  },
-  {
     "text": "Last Name",
     "value": "_source.lastName"
   },
@@ -11,6 +7,10 @@
     "text": "First Name",
     "value": "_source.firstName",
     "sortable": false
+  },
+  {
+    "text": "Workday ID",
+    "value": "_source.workdayId"
   },
   {
     "text": "Position",
